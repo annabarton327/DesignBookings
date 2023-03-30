@@ -1,54 +1,55 @@
 import faker
 import sqlite3
+import random
 
 
-#DATABAE ACCESS
+# DATABAE ACCESS
 con = sqlite3.connect("lib/db/design_database.db")
 cur = con.cursor()
 
-res = cur.execute("SELECT * FROM designer")
-print(res.fetchall())
 
-
-#FAKE ENTRIES IN THE DATABASE 
+# FAKE ENTRIES IN THE DATABASE
 fake = faker.Faker()
 
-for i in range(1, 50):
+# 50 random designers
+NUM_DESIGNERS = 50
+for i in range(1, NUM_DESIGNERS):
     name = fake.name()
-    certification = fake.name()
     company = fake.company()
+    phone_number = fake.phone_number()
+    address = fake.address()
 
     cur.execute(f'''
-        INSERT INTO designer ( name, certification, studio) 
-        VALUES ("{name}", "{certification}", "{company}");
+        INSERT INTO designers (name, address, phone_number, company)
+        VALUES ("{name}", "{address}", "{phone_number}", "{company}");
     ''')
 
-con.commit()
-
-for i in range(1, 200):
+# 200 random clients
+NUM_CLIENTS = 200
+for i in range(1, NUM_CLIENTS):
     name = fake.name()
-    designer = fake.name() 
     address = fake.address()
     email = fake.email()
 
     cur.execute(f'''
-        INSERT INTO client (name, designer, address, email)
-        VALUES ("{name}", "{designer}", "{address}", "{email}");
+        INSERT INTO clients (name, address, email)
+        VALUES ("{name}", "{address}", "{email}");
     ''')
 
-con.commit()
-
-for i in range(1, 500):
-    type = fake.name() 
-    room = fake.name() 
-    designer = fake.name() 
-    client = fake.name() 
-    consultation_date = fake.date() 
+NUM_BOOKINGS = 500
+for i in range(1, NUM_BOOKINGS):
+    type = fake.name()
+    room = random.choice(
+        ["Kitchen", "Dining Room", "Basement", "Bedroom", "Living Room"])
+    designer_id = random.randint(1, NUM_DESIGNERS-1)  # foreign key
+    client_id = random.randint(1, NUM_CLIENTS-1)  # foreign key
+    consultation_date = fake.date()
 
     cur.execute(f'''
-        INSERT INTO booking (type, room, designer, client, consultation_date)
-        VALUES ("{type}", "{room}", "{designer}", "{client}", "{consultation_date}");
+        INSERT INTO bookings (type, room, designer_id, client_id, consultation_date)
+        VALUES ("{type}", "{room}", "{designer_id}", "{client_id}", "{consultation_date}");
     ''')
 
 con.commit()
+
 
