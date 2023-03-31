@@ -1,27 +1,29 @@
-DROP TABLE IF EXISTS designer;
-DROP TABLE IF EXISTS client;
-DROP TABLE IF EXISTS booking;
+DROP TABLE IF EXISTS designers;
 
-CREATE TABLE designer (
+DROP TABLE IF EXISTS clients;
+
+DROP TABLE IF EXISTS bookings;
+
+CREATE TABLE designers (
   id INTEGER PRIMARY KEY,
-    name TEXT,
-    certification TEXT,
-    company TEXT
+  name TEXT,
+  address TEXT,
+  phone_number TEXT,
+  company TEXT
 );
 
-CREATE TABLE client (
+CREATE TABLE clients (
   id INTEGER PRIMARY KEY,
-    name TEXT,
-    designer TEXT,
-    address TEXT,
-    email TEXT
+  name TEXT,
+  address TEXT,
+  email TEXT
 );
 
-CREATE TABLE booking (
+CREATE TABLE bookings (
   id INTEGER PRIMARY KEY,
-    type TEXT,
-    room TEXT,
-    designer TEXT,
-    client TEXT,
-    consultation_date TEXT
+  type TEXT,
+  room TEXT,
+  designer_id INTEGER,
+  client_id INTEGER,
+  consultation_date TEXT
 );

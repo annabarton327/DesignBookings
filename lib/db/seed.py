@@ -38,7 +38,8 @@ for i in range(1, NUM_CLIENTS):
 
 NUM_BOOKINGS = 500
 for i in range(1, NUM_BOOKINGS):
-    type = fake.name()
+    type = random.choice(
+        ["Bohemian", "New Age", "Traditional", "California Chic", "Asian", "Coastal", "Contemporary", "County", "Industrial", "Modern", "Traditional"])
     room = random.choice(
         ["Kitchen", "Dining Room", "Basement", "Bedroom", "Living Room"])
     designer_id = random.randint(1, NUM_DESIGNERS-1)  # foreign key
